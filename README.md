@@ -10,7 +10,7 @@ The source we use are as follows:
 
 ## Data sources:
 
-### refinitive:
+### refinitiv:
 * download the scripts in the "refinitiv_esg" folder and change folder variable to your own drive folder
 * install dependencies in requirements.txt file
 * run esg_score.py
