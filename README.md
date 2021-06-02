@@ -1,5 +1,5 @@
 # ESG scrapper
-Python scripts to scrap various websites and collect ESG data. Output are flat files
+Python scripts to scrap various websites and collect ESG data. Output are flat files.
 The source we use are as follows:
 * refinitiv ESG website
 * news api
