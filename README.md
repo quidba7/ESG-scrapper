@@ -21,7 +21,7 @@ The source we use are as follows:
     * selenium
     * pandas / numpy
 
-### news api
+### news api:
 * create an account with news api and replace my api-key in the url to send through API (Don't use mine, it is a free subscription anyway)
 * run scrap_news.py
 

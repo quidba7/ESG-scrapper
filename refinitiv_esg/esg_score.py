@@ -60,15 +60,20 @@ def extract_scores(content):
             temp_dict[name.text] = val.text
             print((name.text, val.text))
 
-    # now pick ranking on industry
-    rank = content.find("h4", {"class": "Heading Heading--xl"})
-    temp_dict["industry_rank"] = rank.text
-    print(rank.text)
+    try:
+        # now pick ranking on industry
+        rank = content.find("h4", {"class": "Heading Heading--xl"})
+        temp_dict["industry_rank"] = rank.text
 
-    # now pick description
-    descr = content.find("p", {"class": "Standfirst"})
-    temp_dict["descr"] = descr.text
-    print(descr.text)
+        print(temp_dict["industry_rank"])
+
+        # now pick description
+        descr = content.find("p", {"class": "Standfirst"})
+        temp_dict["descr"] = descr.text
+
+        print(descr.text)
+    except:
+        temp_dict["industry_rank"], temp_dict["descr"] = "", ""
 
     return pd.DataFrame(temp_dict, index=[0])
 
@@ -83,8 +88,8 @@ def run_selenium_srap(df, esg_main_df, folder):
         last_ind=0
 
     # first we will loop every hour 87 companies to avoid exceed limit from refinitive
-    for j in range(last_ind, int(df.shape[0] / 87) + 1):
-        for ind in range(j * 87, (j + 1) * 87):
+    for j in range(0, int((df.shape[0]-last_ind) / 87) + 1):
+        for ind in range(last_ind + j * 87, min(df.shape[0],  last_ind + (j + 1) * 87)):
 
             # we make sur we don't go over dataframe number of rows
             if ind < df.shape[0]:
@@ -97,12 +102,12 @@ def run_selenium_srap(df, esg_main_df, folder):
                 # Now insert company name
                 e = driver.find_element_by_xpath('//input[@id="searchInput-1"]')
                 e.send_keys(df.loc[ind, "company"])
-                time.sleep(3)
+                time.sleep(2)
 
                 # We click on the enter
                 button = driver.find_element_by_xpath('//button[@class="SearchInput-searchButton"]')
                 button.click()
-                time.sleep(3)
+                time.sleep(2)
 
                 # We can collect ESG score
                 cc_html = driver.page_source
@@ -117,7 +122,7 @@ def run_selenium_srap(df, esg_main_df, folder):
                 # Now clear selection
                 button = driver.find_element_by_xpath('//button[@class="SearchInput-clearButton"]')
                 button.click()
-                time.sleep(3)
+                # time.sleep(3)
                 print("{} company".format(str(ind)))
 
                 # we save every 10 companies
