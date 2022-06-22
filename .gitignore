@@ -1,4 +1,5 @@
 #folders
 venv
-*.json
-*.csv
+**.json
+**.csv
+.idea

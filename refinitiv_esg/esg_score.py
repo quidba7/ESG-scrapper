@@ -40,9 +40,11 @@ def extract_scores(content):
     # first we look for main esg score
     ele = content.find("h3", {"class": "Heading Heading--m"})
 
-    print(ele.text.split(":")[1].strip())
-    temp_dict["main_score"] = ele.text.split(":")[1].strip()
-
+    try:
+        print(ele.text.split(":")[1].strip())
+        temp_dict["main_score"] = ele.text.split(":")[1].strip()
+    except:
+        temp_dict["main_score"] = ""
     # then we look for sub esg scores
     env = content.find_all("div", {"class": "Grid-item"})
 
